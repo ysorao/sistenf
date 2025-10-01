@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Registrar Nota de Enfermería</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="paciente">Paciente</label>
+        <select name="paciente" class="form-select" required>
+            <option value="">Seleccione un paciente</option>
+            {% for p in pacientes %}
+            <option value="{{ p.id }}">{{ p.nombre }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="contenido">Contenido</label>
+        <textarea name="contenido" class="form-control" rows="4" required></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar nota</button>
+</form>
+{% endblock %}

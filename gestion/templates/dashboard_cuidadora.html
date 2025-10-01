@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<a href="{% url 'registrar_nota' %}" class="btn btn-success mb-3">+ Registrar nueva nota</a>
+<h2>Mis Turnos Asignados</h2>
+
+
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Fecha</th>
+            <th>Hora Inicio</th>
+            <th>Hora Fin</th>
+            <th>Paciente</th>
+            <th>Estado</th>
+            <th>Accion</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for turno in turnos %}
+        <tr>
+            <td>{{ turno.fecha }}</td>
+            <td>{{ turno.hora_inicio }}</td>
+            <td>{{ turno.hora_fin }}</td>
+            <td>{{ turno.paciente.nombre }}</td>
+            <td>{{ turno.estado }}</td>
+            <td>
+                {% if turno.estado.nombre == 'Asignado' %}
+                    <form method="post" action="{% url 'cambiar_estado_turno' turno.id 'En Curso' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-sm">Iniciar</button>
+                    </form>
+                {% elif turno.estado.nombre == 'En Curso' %}
+                    <form method="post" action="{% url 'cambiar_estado_turno' turno.id 'Finalizado' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-sm">Finalizar</button>
+                    </form>
+                {% else %}
+                    <span class="text-muted">Completado</span>
+                {% endif %}
+
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No tienes turnos asignados.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
