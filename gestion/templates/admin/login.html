@@ -1,0 +1,9 @@
+{% extends "admin/login.html" %}
+{% load static %}
+
+{% block content %}
+    <div style="text-align: center;">
+        <img src="{% static 'img/logo.jpg' %}" alt="Logo" style="max-width: 300px; margin-bottom: 20px;">
+    </div>
+    {{ block.super }}
+{% endblock %}
